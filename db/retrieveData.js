@@ -3,27 +3,18 @@ const TweetData = require('./models/index');
 
 
 const searchParams = (search) => {
-    const { user, tweet } = search;
-    var query;
-    if(user && tweet)
-        query = {
-            text: new RegExp(`.*${tweet}.*`, 'i'),
-            $or: [
-                { 'user.name': new RegExp(`^${user}$`, 'i') },
-                { 'user.screen_name': new RegExp(`^${user}$`, 'i') }
-            ]
-        };
-    else if (user)
-        query = {
-            $or: [
-                { 'user.name': new RegExp(`^${user}$`, 'i') },
-                { 'user.screen_name': new RegExp(`^${user}$`, 'i') }
-            ]
-        };
-    else if (tweet)
-        query = { text: new RegExp(`.*${tweet}.*`, 'i') };
-    else
-        query = {};
+    const { username, tweet, mentions, screen_name, urls  } = search;
+    var query = {};
+    if (username)
+        query['user.name'] = new RegExp(`.*${username}.*`);
+    if (tweet)
+        query['text'] = new RegExp(`.*${tweet}.*`, 'i');
+    if (mentions)
+        query['entities.user_mentions.name'] = new RegExp(`.*${mentions}.*`, 'i');
+    if (screen_name)
+        query['user.screen_name'] = new RegExp(`.*${screen_name}.*`, 'i');
+    if (urls)
+        query['entities.urls'] = new RegExp(`.*${urls}.*`, 'i');
     return query;
 };
 

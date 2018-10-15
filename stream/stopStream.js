@@ -1,5 +1,4 @@
 stopStream = (currentStream) => {
-    console.log('------------Inside stopStream()-----------');
     if(currentStream) {
         currentStream.stop();
         currentStream.on('reconnect', () => {

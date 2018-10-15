@@ -12,7 +12,6 @@ const router = express.Router();
 var currentStream;
 
 router.post('/api/startstream', bodyParser.json(), (req, res) => {
-    console.log(req.body);
     var keyword = req.body.keyword ? req.body.keyword: 'modi';
     currentStream = startStream(keyword);
     res.status(200).json({

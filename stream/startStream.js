@@ -7,7 +7,6 @@ const T = new Twit(config);
 
 
 startStream = (keyword = 'apple') => {
-    console.log('----------Inside startStream()------------');
     var currentStream = T.stream('statuses/filter', { track: [keyword] });
     currentStream.on('tweet', (tweet) => {
         storeData(tweet);

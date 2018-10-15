@@ -37,6 +37,9 @@ const schema = new mongoose.Schema ({
     },
     lang: {
         type: String
+    },
+    entities: {
+        type: Object
     }
 });
 
