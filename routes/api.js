@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const startStream = require('../stream/startStream');
 const stopStream = require('../stream/stopStream');
 const retrieveData = require('../db/retrieveData');
+const csvGenerator = require('../csv/index');
 
 
 const router = express.Router();
@@ -40,6 +41,19 @@ router.post('/api/getstoreddata', bodyParser.json(), async (req, res) => {
     var { search, filter, sort, page } = req.body;
     var { data, success } = await retrieveData(search, filter, sort, page);
     res.status(200).json({ success, data });
-})
+});
+
+router.post('/api/getcsv', bodyParser.json(), async (req, res) => {
+    var { search, filter, sort, page } = req.body;
+    var { csv, success } = await csvGenerator(search, filter, sort, page);
+    if (success) {
+        res.set({ 'Content-Disposition': 'attachment; filename=testing.csv', 'Content-Type': 'text/csv' });
+        res.status(200).send(csv);
+    } else {
+        res.status(200).json({
+            success: false
+        });
+    }
+});
 
 module.exports = router;

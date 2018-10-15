@@ -1,4 +1,5 @@
 const TweetData = require('./models/index');
+const Json2csvParser = require('json2csv').Parser;
 
 
 
@@ -96,9 +97,9 @@ const queryGenerator = (search, filter) => {
 }
 
 
-const retrieveData = async (search = {}, filter = {}, sort = { created_at: -1 }, page = 1) => {
+const retrieveData = async (search = {}, filter = {}, sort = { created_at: -1 }, page = 1, limit = 10) => {
     var query = queryGenerator(search, filter);
-    var result = await TweetData.paginate(query, { page, limit: 10, sort })
+    var result = await TweetData.paginate(query, { page, limit: limit === -1? 1000: limit, sort })
     .then((data) => {
         return { data, success: true };
     }).catch((data) => {
