@@ -34,6 +34,9 @@ const schema = new mongoose.Schema ({
     },
     favorite_count: {
         type: Number
+    },
+    lang: {
+        type: String
     }
 });
 
